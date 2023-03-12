@@ -94,19 +94,77 @@
 //
 // ["Miya","Noel","Maria"].forEach(high5);//コンソールに3つの👋が出た！
 
-const greet = function(greeting){ //引数にgreatingがある
-  return function(name){　
-    console.log(`${greeting}! ${name}!!`);
-  }
+// const greet = function(greeting){ //引数にgreatingがある
+//   return function(name){　
+//     console.log(`${greeting}! ${name}!!`);
+//   }
+// }
+//
+// const greeterHey = greet("hey"); // 引数にheyがはいる。
+// greeterHey("Miya"); //hey!Miya!!
+// greeterHey("Noel");//hey!Noel!!
+// //いろんなところに新しいやつ作って、はいいれて、はいいれてってやっている。
+//
+// greet("Hello")("Maria"); //Hello! Maria!と一回で呼ぶことも可能。へぇー〜ー
+//
+// const greetArr = greeting => name => console.log(`${greeting}! ${name}!!`);
+// greetArr("Good Evenng")("Steven");
+// //アロー関数で書くこともできる。よくわかんないけど、こんがらがる。jonasも、アロー関数はわかりづらいって言ってる。
+
+const lufthansa = {
+  airline : "lufthansa",
+  iateCode : "LH",
+  booking: [],
+  book(flightNum, name){ //引数の中に関数？を作る。だからairlineとかはthis.を使って引っ張ってくる。
+    console.log(`${name} booked a seat on ${this.airline} flight${this.iateCode} ${flightNum}`);
+    this.booking.push({
+      flight: `${this.iateCode}${flightNum}`,
+      name
+    }); //配列にpushしている。って感じか。book の中に入っているから、flightNumの時thisは必要ないよね。
+
+  },
+
+};
+
+lufthansa.book("234" , "Miya"); //Miya booked a seat on lufthansa flightLH 234
+lufthansa.book("321" , "Noel"); //Noel booked a seat on lufthansa flightLH 321 テンプレートリテラルで！
+// console.log(lufthansa);//{airline: 'lufthansa', iateCode: 'LH', booking: Array(2), book: ƒ}
+
+const eurowings = {
+  airline: "eurowings",
+  iateCode: "EW",
+  booking: [],
+};
+
+const book  = lufthansa.book;
+
+// book(23,"Sarah"); //これは使いません。
+book.call(eurowings, 23 , "Sarah"); //最初に呼び出したい関数名を入れる。あくまでもbookだから、引数は二つ。
+console.log(eurowings);//{name: 'eurowings', iateCode: 'EW', booking: Array(1)}
+//名前はeurowings、flightはEW23となる。
+book.call(lufthansa, 38, "Miya");
+console.log(lufthansa);//name  lufthansa, iateCode:EW, となる。上と構造は一緒。
+//ただこっちは、bookingが3つある。上の二つがあるから！
+
+const swiss = {
+  airline : "Swiss Airline",
+  iateCode: "SA",
+  booking: []
 }
 
-const greeterHey = greet("hey"); // 引数にheyがはいる。
-greeterHey("Miya"); //hey!Miya!!
-greeterHey("Noel");//hey!Noel!!
-//いろんなところに新しいやつ作って、はいいれて、はいいれてってやっている。
+book.call(swiss, 40, "Maria");
+console.log(swiss); //{name: 'Swiss Airline', iateCode: 'SA', booking: Array(1)}
 
-greet("Hello")("Maria"); //Hello! Maria!と一回で呼ぶことも可能。へぇー〜ー
 
-const greetArr = greeting => name => console.log(`${greeting}! ${name}!!`);
-greetArr("Good Evenng")("Steven");
-//アロー関数で書くこともできる。よくわかんないけど、こんがらがる。jonasも、アロー関数はわかりづらいって言ってる。
+//要は他で定義したやつを何度も書かなくても繰り返し使えるよ！ということです！！それが,callでーーす。
+//次は//apply だよーん
+
+console.log("------")
+const flightData = [583, "George"];
+book.apply(swiss, flightData); //George booked a seat on Swiss Airline flightSA 583。bookを呼んでいるからそこに含まれているテンプレートリテラルが呼び出された！
+console.log(swiss);//{airline: 'Swiss Airline', iateCode: 'SA', booking: Array(2)}
+
+
+book.call(swiss, ...flightData);//George booked a seat on Swiss Airline flightSA 583.
+//book.apply(swiss, flightData);と全く同じ結果
+//あまり大きな違いはわからないが、callもapplyも同じようにやっているのだ。
