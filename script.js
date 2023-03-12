@@ -27,30 +27,69 @@
 // // createBooking("LH123" , , 1000); //何かをスキップすることはできない。
 // createBooking("LH123" , undefined,1000) //undefinedだったら自動できにfalseと感じてデフォルト値を採用してくれるからこのやり方でいいよ。
 
-const flight = "LH234";
-const miya = {
-  name:  "Miya Sasamoto",
-  passport: 23455437362
+// const flight = "LH234";
+// const miya = {
+//   name:  "Miya Sasamoto",
+//   passport: 23455437362
+// }
+//
+// const checkIn = function(flightNum,passenger){ //checkInはfunction箱の2つを使う。
+//   flightNum = "LH999";
+//   passenger.name = "Ms." + passenger.name;　// miya のなまえのところにmsをつける。ここはmiyaオブジェクトを操作しているのと一緒。
+//
+//   if(passenger.passport === 23455437362){ //一緒だから！
+//     alert ("Check In!")
+//   }else{
+//     alert ("WRONG!!");
+//   }
+// }
+//
+// // checkIn(flight,miya); // 上のcheckInのやつで使うのは、上で定義したflightとmiyaだね。
+// // console.log(flight); //でもここが、LH999とcheckInでやったのに、LH234のまま。flightNum = flightとなることがわかるよね？
+// // console.log(miya);
+//
+// const newPassport = function(person){
+//   person.passport = Math.trunc(Math.random() * 30000000 );
+// }
+//
+// newPassport(miya);
+// checkIn(flight,miya); //一回check in!とでて、その後WRONってでる。なぜならnewPassportで書き換えをしているから。
+
+const oneWord = function(str){
+  return str.replace(/ /g, "").toLowerCase(); //文字列を受け取り、空白のない形にする
+}
+//
+const upperFirstWord = function (str){
+  const [first, ...others]= str.split(" ");
+  return [first.toUpperCase(), ...others].join(" ");
+};
+// const upperFirstWord = function (str) {
+//   const [first, ...others] = str.split(' ');
+//   return [first.toUpperCase(), ...others].join(' ');
+// };
+
+const transFormer = function(str,fn){
+  console.log(`Original string: ${str}`);
+  console.log(`Transformed string: ${fn(str)}`)
+
+  console.log(`Transformed by : ${fn.name}`);
+
 }
 
-const checkIn = function(flightNum,passenger){ //checkInはfunction箱の2つを使う。
-  flightNum = "LH999";
-  passenger.name = "Ms." + passenger.name;　// miya のなまえのところにmsをつける。ここはmiyaオブジェクトを操作しているのと一緒。
 
-  if(passenger.passport === 23455437362){ //一緒だから！
-    alert ("Check In!")
-  }else{
-    alert ("WRONG!!");
-  }
+transFormer("JavaScript is the best",upperFirstWord);
+//Original string: ${str}`); //最初だけ大文字　Original string: JavaScript is the bestだよ。
+//Transformed string: ${fn(str)}`)//最初がuppercaseに　Transformed string: JAVASCRIPT is the best
+//Transformed by : ${fn.name}`);// Transformed by : upperFirstWord。関数の名前ということ。fn.name で。
+console.log("--------");
+transFormer("JavaScript is the best",oneWord);
+// Transformed stringでjavascriptisthebestになる。空白のない形だからね。
+//Transformed by : ${fn.name}`はoneWord
+
+const high5 = function(){
+  console.log("👋");
 }
 
-// checkIn(flight,miya); // 上のcheckInのやつで使うのは、上で定義したflightとmiyaだね。
-// console.log(flight); //でもここが、LH999とcheckInでやったのに、LH234のまま。flightNum = flightとなることがわかるよね？
-// console.log(miya);
+document.body.addEventListener("click",high5); //どこでもいいから画面のbodyを押すと、コンソールに表示される。
 
-const newPassport = function(person){
-  person.passport = Math.trunc(Math.random() * 30000000 );
-}
-
-newPassport(miya);
-checkIn(flight,miya); //一回check in!とでて、その後WRONってでる。なぜならnewPassportで書き換えをしているから。
+["Miya","Noel","Maria"].forEach(high5);//コンソールに3つの👋が出た！
