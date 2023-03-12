@@ -54,42 +54,59 @@
 //
 // newPassport(miya);
 // checkIn(flight,miya); //一回check in!とでて、その後WRONってでる。なぜならnewPassportで書き換えをしているから。
-
-const oneWord = function(str){
-  return str.replace(/ /g, "").toLowerCase(); //文字列を受け取り、空白のない形にする
-}
 //
-const upperFirstWord = function (str){
-  const [first, ...others]= str.split(" ");
-  return [first.toUpperCase(), ...others].join(" ");
-};
-// const upperFirstWord = function (str) {
-//   const [first, ...others] = str.split(' ');
-//   return [first.toUpperCase(), ...others].join(' ');
+// const oneWord = function(str){
+//   return str.replace(/ /g, "").toLowerCase(); //文字列を受け取り、空白のない形にする
+// }
+// //
+// const upperFirstWord = function (str){
+//   const [first, ...others]= str.split(" ");
+//   return [first.toUpperCase(), ...others].join(" ");
 // };
+// // const upperFirstWord = function (str) {
+// //   const [first, ...others] = str.split(' ');
+// //   return [first.toUpperCase(), ...others].join(' ');
+// // };
+//
+// const transFormer = function(str,fn){
+//   console.log(`Original string: ${str}`);
+//   console.log(`Transformed string: ${fn(str)}`)
+//
+//   console.log(`Transformed by : ${fn.name}`);
+//
+// }
+//
+//
+// transFormer("JavaScript is the best",upperFirstWord);
+// //Original string: ${str}`); //最初だけ大文字　Original string: JavaScript is the bestだよ。
+// //Transformed string: ${fn(str)}`)//最初がuppercaseに　Transformed string: JAVASCRIPT is the best
+// //Transformed by : ${fn.name}`);// Transformed by : upperFirstWord。関数の名前ということ。fn.name で。
+// console.log("--------");
+// transFormer("JavaScript is the best",oneWord);
+// // Transformed stringでjavascriptisthebestになる。空白のない形だからね。
+// //Transformed by : ${fn.name}`はoneWord
+//
+// const high5 = function(){
+//   console.log("👋");
+// }
+//
+// document.body.addEventListener("click",high5); //どこでもいいから画面のbodyを押すと、コンソールに表示される。
+//
+// ["Miya","Noel","Maria"].forEach(high5);//コンソールに3つの👋が出た！
 
-const transFormer = function(str,fn){
-  console.log(`Original string: ${str}`);
-  console.log(`Transformed string: ${fn(str)}`)
-
-  console.log(`Transformed by : ${fn.name}`);
-
+const greet = function(greeting){ //引数にgreatingがある
+  return function(name){　
+    console.log(`${greeting}! ${name}!!`);
+  }
 }
 
+const greeterHey = greet("hey"); // 引数にheyがはいる。
+greeterHey("Miya"); //hey!Miya!!
+greeterHey("Noel");//hey!Noel!!
+//いろんなところに新しいやつ作って、はいいれて、はいいれてってやっている。
 
-transFormer("JavaScript is the best",upperFirstWord);
-//Original string: ${str}`); //最初だけ大文字　Original string: JavaScript is the bestだよ。
-//Transformed string: ${fn(str)}`)//最初がuppercaseに　Transformed string: JAVASCRIPT is the best
-//Transformed by : ${fn.name}`);// Transformed by : upperFirstWord。関数の名前ということ。fn.name で。
-console.log("--------");
-transFormer("JavaScript is the best",oneWord);
-// Transformed stringでjavascriptisthebestになる。空白のない形だからね。
-//Transformed by : ${fn.name}`はoneWord
+greet("Hello")("Maria"); //Hello! Maria!と一回で呼ぶことも可能。へぇー〜ー
 
-const high5 = function(){
-  console.log("👋");
-}
-
-document.body.addEventListener("click",high5); //どこでもいいから画面のbodyを押すと、コンソールに表示される。
-
-["Miya","Noel","Maria"].forEach(high5);//コンソールに3つの👋が出た！
+const greetArr = greeting => name => console.log(`${greeting}! ${name}!!`);
+greetArr("Good Evenng")("Steven");
+//アロー関数で書くこともできる。よくわかんないけど、こんがらがる。jonasも、アロー関数はわかりづらいって言ってる。
