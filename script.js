@@ -338,41 +338,63 @@
 //More closures Examples
 
 //Example1
-let f;
-const g = function(){
-  const a = 23;
-  f = function(){
-    console.log(a * 2);
-  };
-};
-
-const h = function(){
-  const b = 777;
-  f = function(){
-    console.log(b * 10);
-  };
-};
-
-
-g();
-f();
-
-//再代入
-h();
-f(); ///7770
-
-//Example2 timer
-const boardPassengers = function(n,wait){
-  const perGroup = n / 3;
-
-  setTimeout(function(){ //時間を指定できる。
-    console.log(`We are now boarding all ${n} passengers`);
-    console.log(`There are 3 groups, each with ${perGroup} passengers`);
-  },wait + 1000); ///10000が1秒。ミリ秒らしい。この場合3秒。
-  console.log(`Will start boarding in ${wait} seconds`);
-};
-
-boardPassengers(180,3);
+// let f;
+// const g = function(){
+//   const a = 23;
+//   f = function(){
+//     console.log(a * 2);
+//   };
+// };
+//
+// const h = function(){
+//   const b = 777;
+//   f = function(){
+//     console.log(b * 10);
+//   };
+// };
+//
+//
+// g();
+// f();
+//
+// //再代入
+// h();
+// f(); ///7770
+//
+// //Example2 timer
+// const boardPassengers = function(n,wait){
+//   const perGroup = n / 3;
+//
+//   setTimeout(function(){ //時間を指定できる。
+//     console.log(`We are now boarding all ${n} passengers`);
+//     console.log(`There are 3 groups, each with ${perGroup} passengers`);
+//   },wait + 1000); ///10000が1秒。ミリ秒らしい。この場合3秒。
+//   console.log(`Will start boarding in ${wait} seconds`);
+// };
+//
+// boardPassengers(180,3);
 //Will start boarding in 3 seconds
 //We are now boarding all 180 passengers
 //There are 3 groups, each with 60 passengers
+
+// Coding Challenge #2
+
+/*
+This is more of a thinking challenge than a coding challenge 🤓
+
+Take the IIFE below and at the end of the function, attach an event listener that changes the color of the selected h1 element ('header') to blue, each time the BODY element is clicked. Do NOT select the h1 element again!
+
+And now explain to YOURSELF (or someone around you) WHY this worked! Take all the time you need. Think about WHEN exactly the callback function is executed, and what that means for the variables involved in this example.
+
+GOOD LUCK 😀
+*/
+
+
+(function () {
+  const header = document.querySelector('h1'); //ここです。
+  header.style.color = 'red';
+
+  document.querySelector('body').addEventListener('click', function () { //bodyを押すと色が変わるように。
+    header.style.color = 'blue';
+  });
+})();
