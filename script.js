@@ -310,27 +310,69 @@
 
 //クロージャー？はにゃ？？
 //明示的に作るものではないことを理解。自動的にそうなるものである。スコープチェーンとかが関係ある。
-const secureBooking = function(){
-  let passengerCount = 0;
+// const secureBooking = function(){
+//   let passengerCount = 0;
+//
+//     return function(){
+//       passengerCount ++;
+//       console.log(`${passengerCount} passengers`);
+//     }
+// }
+//
+// const booker = secureBooking(); //secureBooking()関数を、bookerに格納する。
+// booker(); //1passengers
+// booker(); //2 passengers
+// booker(); // 3passengers
+//
+// console.dir(booker);//console.dir()は指定された JavaScript オブジェクトのプロパティをすべてコンソール上で見る方法
+// //この場合
+// // ƒ anonymous()length: 0
+// // name: ""
+// // prototype: {constructor: ƒ}
+// // arguments: (...)
+// // caller: (...)
+// // [[FunctionLocation]]: script.js:316
+// // [[Prototype]]: ƒ ()
+// // [[Scopes]]: Scopes[3]　と表示
 
-    return function(){
-      passengerCount ++;
-      console.log(`${passengerCount} passengers`);
-    }
-}
+//More closures Examples
 
-const booker = secureBooking(); //secureBooking()関数を、bookerに格納する。
-booker(); //1passengers
-booker(); //2 passengers
-booker(); // 3passengers
+//Example1
+let f;
+const g = function(){
+  const a = 23;
+  f = function(){
+    console.log(a * 2);
+  };
+};
 
-console.dir(booker);//console.dir()は指定された JavaScript オブジェクトのプロパティをすべてコンソール上で見る方法
-//この場合
-// ƒ anonymous()length: 0
-// name: ""
-// prototype: {constructor: ƒ}
-// arguments: (...)
-// caller: (...)
-// [[FunctionLocation]]: script.js:316
-// [[Prototype]]: ƒ ()
-// [[Scopes]]: Scopes[3]　と表示
+const h = function(){
+  const b = 777;
+  f = function(){
+    console.log(b * 10);
+  };
+};
+
+
+g();
+f();
+
+//再代入
+h();
+f(); ///7770
+
+//Example2 timer
+const boardPassengers = function(n,wait){
+  const perGroup = n / 3;
+
+  setTimeout(function(){ //時間を指定できる。
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  },wait + 1000); ///10000が1秒。ミリ秒らしい。この場合3秒。
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+boardPassengers(180,3);
+//Will start boarding in 3 seconds
+//We are now boarding all 180 passengers
+//There are 3 groups, each with 60 passengers
