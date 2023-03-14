@@ -290,19 +290,47 @@
 
  //一度きりの関数というものがある。このテクニックは必要。
 
- const runOnce = function(){
-   console.log("This will be never run again!");
- }
+//  const runOnce = function(){
+//    console.log("This will be never run again!");
+//  }
+//
+//  runOnce(); // This will be never run again!だよん。でもこのままだと、普通にもう一回実行することができるよね。
+//
+//
+//  (function(){
+//    console.log("This is how we do");
+//  })();
+//  //jsを騙す。かっこで囲んで、その後に関数の()を入れる。姑息。
+//  //これをImmedietly Invoked Function Expression(IIFE)と呼ぶらし。
+//
+// //アロー関数でのIIFEのやり方
+// (() => console.log("This is how we do part2!"))();
+// //とりあえず、かっこで包んで、かっこを最後につけりゃいい。
 
- runOnce(); // This will be never run again!だよん。でもこのままだと、普通にもう一回実行することができるよね。
 
+//クロージャー？はにゃ？？
+//明示的に作るものではないことを理解。自動的にそうなるものである。スコープチェーンとかが関係ある。
+const secureBooking = function(){
+  let passengerCount = 0;
 
- (function(){
-   console.log("This is how we do");
- })();
- //jsを騙す。かっこで囲んで、その後に関数の()を入れる。姑息。
- //これをImmedietly Invoked Function Expression(IIFE)と呼ぶらし。
+    return function(){
+      passengerCount ++;
+      console.log(`${passengerCount} passengers`);
+    }
+}
 
-//アロー関数でのIIFEのやり方
-(() => console.log("This is how we do part2!"))();
-//とりあえず、かっこで包んで、かっこを最後につけりゃいい。
+const booker = secureBooking(); //secureBooking()関数を、bookerに格納する。
+booker(); //1passengers
+booker(); //2 passengers
+booker(); // 3passengers
+
+console.dir(booker);//console.dir()は指定された JavaScript オブジェクトのプロパティをすべてコンソール上で見る方法
+//この場合
+// ƒ anonymous()length: 0
+// name: ""
+// prototype: {constructor: ƒ}
+// arguments: (...)
+// caller: (...)
+// [[FunctionLocation]]: script.js:316
+// [[Prototype]]: ƒ ()
+// [[Scopes]]: Scopes[3]　と表示
