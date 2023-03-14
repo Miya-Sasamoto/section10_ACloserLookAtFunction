@@ -168,3 +168,52 @@ console.log(swiss);//{airline: 'Swiss Airline', iateCode: 'SA', booking: Array(2
 book.call(swiss, ...flightData);//George booked a seat on Swiss Airline flightSA 583.
 //book.apply(swiss, flightData);と全く同じ結果
 //あまり大きな違いはわからないが、callもapplyも同じようにやっているのだ。
+
+//ここからはbindの勉強です。
+console.log("---BIND---");
+
+const bookEW = book.bind(eurowings);
+const bookSW = book.bind(swiss);
+const bookLH = book.bind(lufthansa);
+
+bookEW(23,"Steven"); //Steven booked a seat on eurowings flightEW 23となる。　bookだから引数は(flightNum, name)だから23とSteven。でも、flightEWとeurowingsのiateCodeが使われているのは、bindでeurowingsを使っているから！
+bookSW(45,"George");//George booked a seat on Swiss Airline flightSA 45
+bookLH(67,"Kelly"); //Kelly booked a seat on lufthansa flightLH 67　これの方が書くの楽かもね！一回だけbindすればいいから！
+
+const bookEW23 = book.bind(eurowings,23);
+bookEW23("Elsa");//Elsa booked a seat on eurowings flightEW 23　名前を渡してあげるだけでいい.
+bookEW23("Romy");//Romy booked a seat on eurowings flightEW 23
+
+//With addEventListener
+console.log("---Examples---");
+lufthansa.planes = 300;
+console.log(lufthansa);///{airline: 'lufthansa', iateCode: 'LH', booking: Array(4), planes: 300, book: ƒ}と表示される
+lufthansa.buyPlane = function(){
+  // console.log(this);
+  this.planes ++;
+  console.log(this.planes);
+}
+
+// lufthansa.buyPlane(); 301と表示された！
+document.querySelector(".buy").addEventListener("click", lufthansa.buyPlane.bind(lufthansa));
+
+
+console.log("---Examples 2---");
+const addTax = (rate,value)=> value + value * rate;
+console.log(addTax(0.1,200)); //220となる。
+//⇨これがアロー関数を使ったやり方。
+
+const addVAT = addTax.bind(null,0.23);
+// addTax = value => (rate,value)=> value + value * 0.23;という事になる。
+console.log(addVAT(180)); //221
+
+//このような書き方もできる。以下
+
+const addTaxRate = function(rate){
+  return function(value){
+    return value + value * rate;
+  }
+}
+const addVAT2 = addTaxRate(0.23);
+console.log(addVAT2(200));
+console.log(addVAT2(500));
